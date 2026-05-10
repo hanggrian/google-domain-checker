@@ -1,0 +1,42 @@
+name: code-analysis
+
+on: [push, pull_request]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GRADLE_USER_HOME: ${{ github.workspace }}/.gradle/
+  GRADLE_OPTS: -Dorg.gradle.daemon=false
+
+jobs:
+  run-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup-workspace
+
+      - run: |
+          uv run pylint library/library/
+          uv run pylint library/tests/
+          uv run pylint library-extension/
+
+  upload-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup-workspace
+
+      - run: |
+          uv run pytest library/ --cov=library
+          uv run pytest library-extension/ --cov=library-extension --cov-append
+          uv run coverage xml
+
+      - if: github.ref == 'refs/heads/main'
+        uses: codecov/codecov-action@v6
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
