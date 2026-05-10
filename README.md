@@ -1,45 +1,26 @@
-# Python Starters
+[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/hanggrian/google-domain-checker/code-analysis.yaml)](https://github.com/hanggrian/google-domain-checker/actions/workflows/code-analysis.yaml)
+[![Codecov](https://img.shields.io/codecov/c/gh/hanggrian/google-domain-checker)](https://app.codecov.io/gh/hanggrian/google-domain-checker/)
+[![Renovate](https://img.shields.io/badge/dependency-mend-blue)](https://developer.mend.io/github/hanggrian/google-domain-checker/)
+[![Python](https://img.shields.io/badge/python-3.10+-informational)](https://docs.python.org/3.10/)
 
-![Logo](https://github.com/hanggrian/python-starters/raw/assets/logo.png)
+# Google Domain Checker
 
-Common Python project templates, separated by target platform and kind of
-distribution.
+Python script to check if email addresses are from Google Domain in batch.
 
-| | Testing | Publishing | Website | Coverage
---- | :---: | :---: | :---: | :---:
-application | [Pytest] | &cross; | [Material] | &check;
-library | [Pytest] | [Package Index] | [Pdoc], [Material] | &check;
-notebook | &cross; | &cross; | [Pdoc], [Material] | &cross;
+## Usage
 
-## Frameworks
+### Check
 
-- Built-in `unittest` testing framework with [`unittest.mock`](https://docs.python.org/3/library/unittest.mock.html) suite and [pytest](https://docs.pytest.org/en/stable/) as a test
-  runner.
-- [Pylint](https://pylint.pycqa.org/en/stable/index.html) code linter with
-  third-party ruleset [Rulebook](https://github.com/hendraanggrian/rulebook/).
-- [Coverage plugin](https://github.com/pytest-dev/pytest-cov) for Pytest.
+Check individual email addresses in a single thread.
 
-## Project layout
+```sh
+uv run check email1@domain.com email2@domain.com
+```
 
-- Root directory:
-  - GitHub [README](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes/),
-    [LICENSE](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository/),
-    and [gitignore](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files/)
-    file.
-  - [EditorConfig](https://editorconfig.org/) enforces IDE settings.
-- [GitHub Actions](https://docs.github.com/en/actions/) workflows:
-  - Run tests, linters and push coverage to [Codecov](https://codecov.io/).
-  - Activate [Renovate](https://docs.renovatebot.com/) bot to alert out-of-date
-    dependencies.
-- [UV](https://docs.astral.sh/uv/) package manager:
-  - `pyproject.toml` with hatchling build system.
-  - `uv.lock` for deterministic dependencies.
-- Website module:
-  - [MkDocs](https://www.mkdocs.org/) for generating webpages displaying README
-    and other content.
-  - The webpages are manually deployed with `mkdocs gh-deploy`.
+### Convert
 
-[Pytest]: https://docs.pytest.org/en/stable/
-[Package Index]: https://pypi.org/
-[Pdoc]: https://pdoc.dev/
-[Material]: https://squidfunk.github.io/mkdocs-material/
+Multi-threaded reading of email column in CSV and append result on a new column.
+
+```sh
+uv run convert file.csv
+```
