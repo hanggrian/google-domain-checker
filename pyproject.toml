@@ -1,0 +1,38 @@
+[project]
+name = "google-domain-checker"
+version = "0.1"
+requires-python = ">=3.10"
+dependencies = [
+  # main
+  "colorama",
+  "dnspython",
+]
+
+[project.scripts]
+check = "main:check"
+convert = "main:convert"
+
+[tool.poe.tasks]
+lint1 = "pylint src/ tests/"
+lint2 = "stylebook .github/ *.toml"
+lint.parallel = ["lint1", "lint2"]
+test = "pytest tests/"
+coverage1 = "pytest tests/ --cov"
+coverage2 = "coverage xml"
+coverage = ["coverage1", "coverage2"]
+
+[tool.uv]
+package = true
+
+[dependency-groups]
+dev = [
+  "poethepoet",
+  # lint
+  "pylint==4.0.4",
+  "rulebook-pylint==0.2",
+  "regex",
+  "stylebook==0.1",
+  # test
+  "pytest",
+  "pytest-cov",
+]
